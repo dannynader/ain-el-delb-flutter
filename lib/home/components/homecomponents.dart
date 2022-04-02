@@ -1,4 +1,5 @@
 import 'package:aineldelb/Projects/projects.dart';
+import 'package:aineldelb/mokhtar/mokhtar.dart';
 // import 'package:aineldelb/home/components/homeIcon.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,8 @@ class ComponentHome extends StatelessWidget {
       "textIcon": "مشاريع",
       "nav": const Projects()
     },
-    {"img": "lib/assets/imgs/man-user.png", "textIcon": "المخاتير"},
+    {"img": "lib/assets/imgs/man-user.png", "textIcon": "المخاتير",
+    "nav": const mokhtar()},
     {
       "img": "lib/assets/imgs/public-museum-sign.png",
       "textIcon": "المجلس البلدي"

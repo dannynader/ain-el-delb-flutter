@@ -1,4 +1,5 @@
 import 'package:aineldelb/component/NavBar.dart';
+import 'package:aineldelb/component/loader/loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
@@ -14,7 +15,7 @@ class ProjectImage extends StatefulWidget {
 class _ProjectImageState extends State<ProjectImage> {
   List<String> posts = [];
   List<String> temPosts = [];
-  late List<dynamic> jsonData;
+  late List<dynamic> jsonData = [];
   int index = 0;
   Future<List> getProjectImages() async {
     final http.Response response = await http.get(
@@ -44,25 +45,28 @@ class _ProjectImageState extends State<ProjectImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return jsonData.isEmpty? const Loader(): Scaffold(
       resizeToAvoidBottomInset: false,
-        drawer: NavBar(),
-        appBar: AppBar(
+      drawer: NavBar(),
+      appBar: AppBar(
           backgroundColor: const Color.fromRGBO(103, 0, 103, 1),
           title: const Text("مشاريع"),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: List.generate(posts.length, (e) => 
-          GestureDetector(
-            // ignore: avoid_print
-            onTap: () => print(e),
-            child: Card(
-              elevation: 8,
-              child: Image.network(posts[e])),
-          )
-          ))
-        ,),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_forward, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ]),
+      body: SingleChildScrollView(
+        child: Column(
+            children: List.generate(
+                posts.length,
+                (e) => GestureDetector(
+                      // ignore: avoid_print
+                      onTap: () => print(e),
+                      child: Card(elevation: 8, child: Image.network(posts[e])),
+                    ))),
+      ),
     );
   }
 }
