@@ -1,7 +1,6 @@
 import 'package:aineldelb/component/NavBar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:galleryimage/galleryimage.dart';
 import "package:http/http.dart" as http;
 import 'dart:convert';
 
@@ -46,23 +45,31 @@ class _ProjectImageState extends State<ProjectImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         drawer: NavBar(),
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(103, 0, 103, 1),
           title: const Text("مشاريع"),
         ),
-        body: posts.isNotEmpty
-            ? SingleChildScrollView(
-                child: GalleryImage(titleGallery: 'hi', imageUrls: posts))
-            : const Text('data'));
+        body: SingleChildScrollView(
+          child: Column(
+            children: List.generate(posts.length, (e) => 
+          GestureDetector(
+            // ignore: avoid_print
+            onTap: () => print(e),
+            child: Card(
+              elevation: 8,
+              child: Image.network(posts[e])),
+          )
+          ))
+        ,),
+    );
   }
 }
 
 class ProjectModel {
   final String project;
-
   ProjectModel({required this.project});
-
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
     return ProjectModel(
       project: json['project'],
