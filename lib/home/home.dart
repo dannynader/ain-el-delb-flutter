@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aineldelb/component/NavBar.dart';
+import 'package:aineldelb/component/loader/loader.dart';
 import 'package:aineldelb/home/components/homecomponents.dart';
 import 'package:aineldelb/home/components/sliderCarousel.dart';
 import 'package:flutter/foundation.dart';
@@ -38,19 +39,23 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return slider.isEmpty? const Loader() : Scaffold(
         drawer: NavBar(),
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(103, 0, 103, 1),
           title: const Text("Home"),
         ),
-        body: Column(children: [
+        body:
+        Column(children: [
           slider.isNotEmpty
               ? SlidersCarousel(
                   slidersData: slider,
                 )
               : const CircularProgressIndicator(),
           ComponentHome()
-        ]));
+        ])
+        
+        
+        );
   }
 }

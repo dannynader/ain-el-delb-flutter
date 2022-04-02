@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Loader extends StatefulWidget {
-  const Loader({Key? key}) : super(key: key);
+class Loader extends StatelessWidget {
+  const Loader({ Key? key }) : super(key: key);
 
-  @override
-  _LoaderState createState() => _LoaderState();
-}
-
-class _LoaderState extends State<Loader> {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
@@ -19,5 +14,3 @@ class _LoaderState extends State<Loader> {
     );
   }
 }
-
-// Image.asset('lib/assets/imgs/logo.png');

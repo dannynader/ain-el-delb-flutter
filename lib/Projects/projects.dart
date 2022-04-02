@@ -1,5 +1,6 @@
 import 'package:aineldelb/Projects/project/project.dart';
 import 'package:aineldelb/component/NavBar.dart';
+import 'package:aineldelb/component/loader/loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -30,9 +31,13 @@ class _State extends State<Projects> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return projects.isEmpty? const Loader() : Scaffold(
         drawer: NavBar(),
         appBar: AppBar(
+           actions: [IconButton(
+    icon: const Icon(Icons.arrow_forward, color: Colors.white),
+    onPressed: () => Navigator.of(context).pop(),
+  ), ],
           backgroundColor: const Color.fromRGBO(103, 0, 103, 1),
           title: const Text("مشاريع"),
         ),
