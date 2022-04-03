@@ -6,7 +6,8 @@ import "package:http/http.dart" as http;
 import 'dart:convert';
 
 class ProjectImage extends StatefulWidget {
-  const ProjectImage({Key? key}) : super(key: key);
+  final dynamic projectID;
+  const ProjectImage({required this.projectID,Key? key}) : super(key: key);
 
   @override
   _ProjectImageState createState() => _ProjectImageState();
@@ -17,19 +18,23 @@ class _ProjectImageState extends State<ProjectImage> {
   List<String> temPosts = [];
   late List<dynamic> jsonData = [];
   int index = 0;
+
+
+  
   Future<List> getProjectImages() async {
     final http.Response response = await http.get(
-        Uri.parse('https://api.aineldelb.gov.lb/api/projects-albumsV2/40'));
+        Uri.parse('https://api.aineldelb.gov.lb/api/projects-albumsV2/${widget.projectID}'));
     jsonData = jsonDecode(response.body);
     makeList();
     return jsonData;
   }
 
   makeList() {
+    if (kDebugMode) {
+      print('${widget.projectID}');
+    }
     for (index = 0; index < jsonData.length; index++) {
-      if (kDebugMode) {
-        print(jsonData[index]['project']);
-      }
+
       posts.add(jsonData[index]['project']);
     }
     setState(() {

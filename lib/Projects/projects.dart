@@ -21,12 +21,17 @@ class _State extends State<Projects> {
     setState(() {
       projects = jsonData;
     });
+    if (kDebugMode) {
+      // print(projects[0].id);
+
+    }
   }
 
   @override
   void initState() {
     super.initState();
     getProjects();
+
   }
 
   @override
