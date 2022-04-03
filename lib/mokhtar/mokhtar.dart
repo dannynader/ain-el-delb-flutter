@@ -1,5 +1,9 @@
 // ignore_for_file: camel_case_types
-
+import 'package:aineldelb/component/loader/loader.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:aineldelb/component/NavBar.dart';
 
@@ -11,31 +15,64 @@ class mokhtar extends StatefulWidget {
 }
 
 class _mokhtarState extends State<mokhtar> {
+  dynamic mokhtar;
+
+
+  bool empty = false;
+
+
+
+  getMokhtar() async {
+    final response = await http.get(
+        Uri.parse('https://api.aineldelb.gov.lb/api/mukhtar'));
+    final jsonData = jsonDecode(response.body);
+    setState(() {
+      mokhtar = jsonData;
+      empty = true;
+    });
+  }
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    getMokhtar();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: NavBar(),
-        appBar: AppBar(
-          title: const Text("المخاتير"),
-          backgroundColor: const Color.fromRGBO(103, 0, 103, 1),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_forward, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
+    return !empty ? const Loader() : Scaffold(
+            drawer: NavBar(),
+            appBar: AppBar(
+              title: const Text("المخاتير"),
+              backgroundColor: const Color.fromRGBO(103, 0, 103, 1),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_forward, color: Colors.white),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: SingleChildScrollView(
-            child: Card(
-          margin: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              const Text("insert mokhtar name"),
-              Image.asset("lib/assets/imgs/man-user.png"),
-              const Text(
-                  "تلك أميركا منذ عقل الخليج الحدود موجه وبعد عواقب ككل أكثر يحتاج النوعية انه والإسلاميين المؤسسات وغير نادرا مثل العراق مــصـر قليل السعودية تهدد على قالوا انهم أميركا والأقليات، السلاح تمتلك زي وإيران ولكنها عن بأسلحة معها للإمارات الأمنية كبيرة ودول وأعداد وأن العربية وأن لم الثائرة رأسهم يمكن القرار يقول لكم ليست من إلى مسئولة بخصوص تبيع القوات تتعارض آلاف باتت ليست تؤثر في سبيل أن وهم في تدخل اريد أميركا يشير "),
-            ],
-          ),
-        )));
+            body: SingleChildScrollView(
+                child: Card(
+              margin: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Text(
+                    mokhtar['name'],
+                    style: const TextStyle(fontSize: 40),
+                  ),
+                  Image.network("https://api.aineldelb.gov.lb/storage/${mokhtar['image']}"),
+                  empty
+                      ? Html(data: mokhtar['body'],
+                      style: {
+                        "div": Style(fontSize: const FontSize(20)),
+                      }
+                  )
+                      : const Text('')
+                ],
+              ),
+            )));
   }
 }

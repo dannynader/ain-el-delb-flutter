@@ -1,7 +1,6 @@
 import 'package:aineldelb/Projects/project/project.dart';
 import 'package:aineldelb/component/NavBar.dart';
 import 'package:aineldelb/component/loader/loader.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,26 +13,22 @@ class Projects extends StatefulWidget {
 
 class _State extends State<Projects> {
   List projects = [];
+
+
   getProjects() async {
-    final response =
-        await http.get(Uri.parse('https://api.aineldelb.gov.lb/api/projects'));
+    final response = await http.get(Uri.parse('https://api.aineldelb.gov.lb/api/projects'));
+
     final jsonData = jsonDecode(response.body) as List;
     setState(() {
       projects = jsonData;
     });
-    if (kDebugMode) {
-      // print(projects[0].id);
-
-    }
   }
-
   @override
   void initState() {
     super.initState();
     getProjects();
 
   }
-
   @override
   Widget build(BuildContext context) {
     return projects.isEmpty? const Loader() : Scaffold(
@@ -48,8 +43,7 @@ class _State extends State<Projects> {
         ),
         body: SingleChildScrollView(
           child: Column(
-            children: projects
-                .map(
+            children: projects.map(
                   (item) => Column(
                     children: [
                       SizedBox(
