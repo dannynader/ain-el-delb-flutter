@@ -19,8 +19,6 @@ class _ProjectImageState extends State<ProjectImage> {
   late List<dynamic> jsonData = [];
   int index = 0;
 
-
-  
   Future<List> getProjectImages() async {
     final http.Response response = await http.get(
         Uri.parse('https://api.aineldelb.gov.lb/api/projects-albumsV2/${widget.projectID}'));
